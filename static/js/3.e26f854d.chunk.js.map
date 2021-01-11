@@ -1,1 +1,0 @@
-{"version":3,"sources":["pages/Cart.tsx"],"names":["Cart"],"mappings":"wIAUeA,UARF,WACT,OACI","file":"static/js/3.e26f854d.chunk.js","sourcesContent":["import React from 'react'\n\nconst Cart = () => {\n    return (\n        <div>\n            fgg\n        </div>\n    )\n}\n\nexport default Cart\n"],"sourceRoot":""}
