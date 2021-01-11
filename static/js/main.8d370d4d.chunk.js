@@ -1,2 +1,0 @@
-(this["webpackJsonpreact-pizza"]=this["webpackJsonpreact-pizza"]||[]).push([[0],{10:function(e,t,c){"use strict";c.r(t);var n=c(1),r=c(0),i=c.n(r),s=c(3),a=c.n(s),o=(c(9),function(){return Object(n.jsx)("div",{className:"App",children:"hello"})});a.a.render(Object(n.jsx)(i.a.StrictMode,{children:Object(n.jsx)(o,{})}),document.getElementById("root"))},9:function(e,t,c){}},[[10,1,2]]]);
-//# sourceMappingURL=main.8d370d4d.chunk.js.map
