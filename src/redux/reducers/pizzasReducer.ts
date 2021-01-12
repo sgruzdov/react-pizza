@@ -1,11 +1,11 @@
 import { getPizzas } from '../../firebase/api'
+import { PizzaCardType } from '../../types/types'
 
 export const GET_PIZZAS = 'GET_PIZZAS'
 
-const initialState = {}
+const initialState: PizzaCardType[] = []
 
 type initialStateType = typeof initialState
-
 
 export const pizzasReducer = (state = initialState, action: any): initialStateType => {
     switch(action.type) {

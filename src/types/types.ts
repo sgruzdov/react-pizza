@@ -1,3 +1,9 @@
+export type StoreType = {
+    pizzas: PizzaCardType[],
+    types: TypesPizzaType,
+    filters: FiltersPizzaType
+}
+
 export type PizzaCardType = {
     id: string
     category: number
@@ -7,4 +13,21 @@ export type PizzaCardType = {
     rating: number
     sizes: number[]
     types: number[]
+}
+
+export type TypesPizzaType = {
+    types: string[]
+    sizes: number[]
+}
+
+export type FiltersPizzaType = {
+    categories: string[]
+    sort: FiltersType[]
+    activeSort: string,
+    activeCategory: string | null
+}
+
+export type FiltersType = {
+    name: string
+    type: string
 }
