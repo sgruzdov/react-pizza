@@ -1,0 +1,2 @@
+(this["webpackJsonpreact-pizza"]=this["webpackJsonpreact-pizza"]||[]).push([[3],{57:function(t,c,e){"use strict";e.r(c);var i=e(4);e(2);c.default=function(){return Object(i.jsx)("div",{children:"fgg"})}}}]);
+//# sourceMappingURL=3.7eb4f09f.chunk.js.map
