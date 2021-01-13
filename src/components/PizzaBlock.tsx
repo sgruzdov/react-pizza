@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { useSelector } from 'react-redux'
 
 import { PizzaCardType } from '../types/types'
+import { AppStateType } from '../redux/store'
 
 type PizzaBlockType = {
     item: PizzaCardType
@@ -12,7 +13,7 @@ type PizzaBlockType = {
 const PizzaBlock: React.FC<PizzaBlockType> = ({ item }) => {
     const [activeType, setActiveType] = useState(item.types[0])
     const [activeSize, setActiveSize] = useState(item.sizes[0])
-    const types = useSelector((state: any) => state.types)
+    const types = useSelector((state: AppStateType) => state.types)
 
 
     return (
@@ -21,7 +22,7 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({ item }) => {
             <h4 className="pizza-block__title">{item.name}</h4>
             <div className="pizza-block__selector">
                 <ul>
-                    {types.types.map((type: string, index: number) => {
+                    {types.types.map((type, index) => {
                         return <li 
                             key={index}
                             onClick={() => setActiveType(index)}
@@ -33,7 +34,7 @@ const PizzaBlock: React.FC<PizzaBlockType> = ({ item }) => {
                     })}
                 </ul>
                 <ul>
-                    {types.sizes.map((size: number, index: number) => {
+                    {types.sizes.map((size, index) => {
                         return <li 
                             key={index}
                             onClick={() => setActiveSize(size)}

@@ -6,12 +6,12 @@ import Categories from '../components/Categories'
 import PizzaBlock from '../components/PizzaBlock'
 import SortPopup from '../components/SortPopup'
 
-import { PizzaCardType } from '../types/types'
 import { getPizzasThunk } from '../redux/reducers/pizzasReducer'
+import { AppStateType } from '../redux/store'
 
 
 const Home: React.FC = () => {
-    const pizzas = useSelector((state: any) => state.pizzas)
+    const pizzas = useSelector((state: AppStateType) => state.pizzas)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {pizzas.map((item: PizzaCardType) => <PizzaBlock item={item} key={item.id} />)}
+                {pizzas.map(item => <PizzaBlock item={item} key={item.id} />)}
             </div>
         </div>
     )

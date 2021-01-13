@@ -1,8 +1,4 @@
-export type StoreType = {
-    pizzas: PizzaCardType[],
-    types: TypesPizzaType,
-    filters: FiltersPizzaType
-}
+
 
 export type PizzaCardType = {
     id: string
