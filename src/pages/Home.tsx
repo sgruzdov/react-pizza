@@ -9,6 +9,7 @@ import SortPopup from '../components/SortPopup'
 import { getPizzasThunk } from '../redux/reducers/pizzasReducer'
 import { AppStateType } from '../redux/store'
 import { PizzaCardType } from '../types/types'
+import sceletonCart from '../assets/img/sceletonPizzaCart.svg'
 
 
 const Home: React.FC = () => {
@@ -18,9 +19,8 @@ const Home: React.FC = () => {
 
     const dispatch = useDispatch()
 
-
     useEffect(() => {
-        if(pizzas.length === 0) dispatch(getPizzasThunk)
+        if(pizzas.items.length === 0) dispatch(getPizzasThunk)
     }, [])
 
     const filterCategories = (pizzas: PizzaCardType[]): PizzaCardType[] => {
@@ -34,11 +34,11 @@ const Home: React.FC = () => {
     const filterSort = (pizzas: PizzaCardType[]): PizzaCardType[] => {
         switch (activeSort) {
             case 'popular':
-                return pizzas.sort((a: PizzaCardType, b: PizzaCardType) => a.rating < b.rating ? 1 : -1)
+                return pizzas.sort((a, b) => a.rating < b.rating ? 1 : -1)
             case 'price':
-                return pizzas.sort((a: PizzaCardType, b: PizzaCardType) => a.price > b.price ? 1 : -1)
+                return pizzas.sort((a, b) => a.price > b.price ? 1 : -1)
             case 'alphabet':
-                return pizzas.sort((a: PizzaCardType, b: PizzaCardType) => a.name > b.name ? 1 : -1)
+                return pizzas.sort((a, b) => a.name > b.name ? 1 : -1)
             default:
                 return pizzas
         }
@@ -49,7 +49,6 @@ const Home: React.FC = () => {
             const CurrentFilterSort = filterSort(CurrentfilterCategories)
             return CurrentFilterSort.map(item => <PizzaBlock item={item} key={item.id} />)
     }
-    console.log('render Home')
 
     return (
         <div className="container">
@@ -59,7 +58,11 @@ const Home: React.FC = () => {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {filterPizzas(pizzas)}
+                {
+                !pizzas.isLoaded
+                    ? Array(10).fill(0).map((item, index) => <div key={`${item}_${index}`} className="pizza-block"><img className="load-img" src={sceletonCart} alt="loading"/></div>)
+                    : filterPizzas(pizzas.items)
+                }
             </div>
         </div>
     )

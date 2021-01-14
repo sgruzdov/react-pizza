@@ -6,19 +6,25 @@ import { useSelector } from 'react-redux'
 import { PizzaCardType } from '../types/types'
 import { AppStateType } from '../redux/store'
 
+import loadImg from '../assets/img/loadingPizzaCart.svg'
+
 type PizzaBlockType = {
     item: PizzaCardType
 }
 
 const PizzaBlock: React.FC<PizzaBlockType> = ({ item }) => {
+    const [onload, setOnload] = useState(true)
     const [activeType, setActiveType] = useState(item.types[0])
     const [activeSize, setActiveSize] = useState(item.sizes[0])
     const types = useSelector((state: AppStateType) => state.types)
 
+    const handleLoading = () => {
+        setOnload(false)
+    }
 
     return (
         <div className="pizza-block">
-            <LazyLoadComponent><img className="pizza-block__image" src={item.imageUrl} alt="Pizza" title={item.name} /></LazyLoadComponent>
+            <LazyLoadComponent><img className="pizza-block__image" onLoad={handleLoading} src={!onload ? item.imageUrl : loadImg} alt="Pizza" title={item.name} /></LazyLoadComponent>
             <h4 className="pizza-block__title">{item.name}</h4>
             <div className="pizza-block__selector">
                 <ul>

@@ -1,4 +1,7 @@
-
+export type PizzasType = {
+    items: PizzaCardType[]
+    isLoaded: boolean
+}
 
 export type PizzaCardType = {
     id: string
@@ -19,7 +22,7 @@ export type TypesPizzaType = {
 export type FiltersPizzaType = {
     categories: string[]
     sort: FiltersType[]
-    activeSort: string,
+    activeSort: string
     activeCategory: number | null
 }
 
