@@ -20,7 +20,7 @@ export type FiltersPizzaType = {
     categories: string[]
     sort: FiltersType[]
     activeSort: string,
-    activeCategory: string | null
+    activeCategory: number | null
 }
 
 export type FiltersType = {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import cn from 'classnames'
@@ -24,9 +25,9 @@ const SortPopup: React.FC = React.memo(() => {
     }, [])
 
     const toggleVisiblePopup = (): void => {
-        setVisiblePopup(!visiblePopup)
+        setVisiblePopup(prev => !prev)
     }
-console.log(typeof filters)
+
     return (
         <div className="sort" ref={sortRef}>
             <div className="sort__label">

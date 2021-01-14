@@ -17,11 +17,11 @@ const Categories: React.FC = React.memo(() => {
                     className={cn({'active': activeItem === null})}
                     onClick={() => dispatch({type: HANDLE_ACTIVE_CATEGORY, payload: null})}
                     >Все</li>
-                {filters.map(item => {
+                {filters.map((item, index) => {
                     return (
                         <li 
-                            className={cn({'active': activeItem === item})}
-                            onClick={() => dispatch({type: HANDLE_ACTIVE_CATEGORY, payload: item})} 
+                            className={cn({'active': activeItem === index + 1})}
+                            onClick={() => dispatch({type: HANDLE_ACTIVE_CATEGORY, payload: index + 1})} 
                             key={item}
                         >{item}</li>
                     )
