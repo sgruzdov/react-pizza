@@ -5,11 +5,13 @@ import thunkMiddleware from 'redux-thunk'
 import { pizzasReducer } from './reducers/pizzasReducer'
 import { typesReducer } from './reducers/typesReducer'
 import { filtersReducer } from './reducers/filtersReducer'
+import { cartReducer } from './reducers/cartReducer'
 
 const reducer = combineReducers({
     pizzas: pizzasReducer,
     types: typesReducer,
-    filters: filtersReducer
+    filters: filtersReducer,
+    cart: cartReducer
 })
 
 type ReducerType = typeof reducer

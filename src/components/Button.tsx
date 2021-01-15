@@ -3,12 +3,12 @@ import cn from 'classnames'
 
 type ButtonType = {
     children: React.ReactNode
-    onClick?: Function
+    onClickAdd?: () => void
     className?: string
     outline?: boolean
 }
 
-const Button: React.FC<ButtonType> = ({ children, onClick, className, outline }) => {
+const Button: React.FC<ButtonType> = ({ children, onClickAdd, className, outline }) => {
 
     const classes = cn(
             'button', 
@@ -16,11 +16,10 @@ const Button: React.FC<ButtonType> = ({ children, onClick, className, outline })
             { 'button--outline': outline }
         )
 
-
     return (
         <button
             className={classes}
-            // onClick={onClick}
+            onClick={onClickAdd}
         >
             {children}
         </button>

@@ -8,12 +8,14 @@ import SortPopup from '../components/SortPopup'
 
 import { getPizzasThunk } from '../redux/reducers/pizzasReducer'
 import { AppStateType } from '../redux/store'
-import { PizzaCardType } from '../types/types'
+import { PizzaCardType, PizzaCart } from '../types/types'
 import sceletonCart from '../assets/img/sceletonPizzaCart.svg'
+import { ADD_PIZZA_CART } from '../redux/reducers/cartReducer'
 
 
 const Home: React.FC = () => {
     const pizzas = useSelector((state: AppStateType) => state.pizzas)
+    const cartItems = useSelector((state: AppStateType) => state.cart.items)
     const activeCategory = useSelector((state: AppStateType) => state.filters.activeCategory)
     const activeSort = useSelector((state: AppStateType) => state.filters.activeSort)
 
@@ -22,6 +24,10 @@ const Home: React.FC = () => {
     useEffect(() => {
         if(pizzas.items.length === 0) dispatch(getPizzasThunk)
     }, [])
+
+    const addPizzaToCart = (obj: PizzaCart) => {
+        dispatch({type: ADD_PIZZA_CART, payload: obj})
+    }
 
     const filterCategories = (pizzas: PizzaCardType[]): PizzaCardType[] => {
         if(!activeCategory) {
@@ -47,7 +53,7 @@ const Home: React.FC = () => {
     const filterPizzas = (pizzas: PizzaCardType[]) => {
             const CurrentfilterCategories = filterCategories(pizzas)
             const CurrentFilterSort = filterSort(CurrentfilterCategories)
-            return CurrentFilterSort.map(item => <PizzaBlock item={item} key={item.id} />)
+            return CurrentFilterSort.map(item => <PizzaBlock onClickAddPizza={(obj: PizzaCart) => addPizzaToCart(obj)} addedCount={cartItems[item.id] && cartItems[item.id].length} item={item} key={item.id} />)
     }
 
     return (

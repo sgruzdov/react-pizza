@@ -14,7 +14,8 @@ const SortPopup: React.FC = React.memo(() => {
     const dispatch = useDispatch()
 
     const handleOutsideClick = (e: any): void => {
-        if(!e.path.includes(sortRef.current)) {
+        const path = e.path || (e.composedPath && e.composedPath())
+        if(!path.includes(sortRef.current)) {
             setVisiblePopup(false)
         }
     }

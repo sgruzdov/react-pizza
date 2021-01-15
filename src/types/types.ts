@@ -1,3 +1,26 @@
+export type CartItemsType = {
+    [id: string]: PizzaCart[]
+}
+
+export type CartType = {
+    items: CartItemsType & {}
+    totalPrice: number
+    totalCount: number
+}
+
+export type PizzaCart = {
+    id: string
+    name: string
+    imageUrl: string
+    price: number
+    size: number
+    type: string
+}
+
+export type ItemsCartType = {
+    id: number
+}
+
 export type PizzasType = {
     items: PizzaCardType[]
     isLoaded: boolean
