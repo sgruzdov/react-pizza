@@ -1,8 +1,9 @@
-import { CartType } from '../../types/types'
+import { CartItemsType, CartType } from '../../types/types'
 
 export const SET_TOTAL_PRICE = 'SET_TOTAL_PRICE'
 export const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
 export const ADD_PIZZA_CART = 'ADD_PIZZA_CART'
+export const CLEAR_CART = 'CLEAR_CART'
 
 const initialState: CartType = {
     items: {},
@@ -12,25 +13,30 @@ const initialState: CartType = {
 
 type initialStateType = typeof initialState
 
+const getTotalPrice = (arr: any): number => arr.reduce((sum: number, obj: any) => obj.price + sum, 0)
+
 export const cartReducer = (state = initialState, action: any): initialStateType => {
     switch(action.type) {
         case ADD_PIZZA_CART: {
-            const newItems = {
+            const currentPizzaItems = !state.items[action.payload.id]
+                ? [action.payload]
+                : [...state.items[action.payload.id].items, action.payload]
+
+                const newItems: CartItemsType = {
                 ...state.items,
-                [action.payload.id]: !state.items[action.payload.id] ? [action.payload] : [
-                    ...state.items[action.payload.id],
-                    action.payload
-                ]
+                [action.payload.id]: {
+                        items: currentPizzaItems,
+                        totalPrice: getTotalPrice(currentPizzaItems)
+                    }
             }
 
-            const newTotalItems = [].concat.apply([], Object.values(newItems))
-            const newTotalPrice = newTotalItems.reduce((sum, obj) => obj.price + sum, 0)
+            const newTotalItems = Object.values(newItems).map(obj => obj.items).flat()
 
             return {
                 ...state,
                 items: newItems,
                 totalCount: +newTotalItems.length,
-                totalPrice: newTotalPrice
+                totalPrice: getTotalPrice(newTotalItems)
             }
         }
         case SET_TOTAL_PRICE: 
@@ -43,6 +49,13 @@ export const cartReducer = (state = initialState, action: any): initialStateType
                 ...state,
                 totalCount: action.payload
             }
+        case CLEAR_CART: {
+            return {
+                items: {},
+                totalCount: 0,
+                totalPrice: 0
+            }
+        }
         default:
             return state
     }

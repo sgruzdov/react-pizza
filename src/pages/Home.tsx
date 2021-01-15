@@ -53,7 +53,7 @@ const Home: React.FC = () => {
     const filterPizzas = (pizzas: PizzaCardType[]) => {
             const CurrentfilterCategories = filterCategories(pizzas)
             const CurrentFilterSort = filterSort(CurrentfilterCategories)
-            return CurrentFilterSort.map(item => <PizzaBlock onClickAddPizza={(obj: PizzaCart) => addPizzaToCart(obj)} addedCount={cartItems[item.id] && cartItems[item.id].length} item={item} key={item.id} />)
+            return CurrentFilterSort.map(item => <PizzaBlock onClickAddPizza={(obj: PizzaCart) => addPizzaToCart(obj)} addedCount={cartItems[item.id] && cartItems[item.id].items.length} item={item} key={item.id} />)
     }
 
     return (

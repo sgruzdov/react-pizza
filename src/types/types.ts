@@ -1,5 +1,8 @@
 export type CartItemsType = {
-    [id: string]: PizzaCart[]
+    [id: string]: {
+        items: PizzaCart[]
+        totalPrice: number
+    }
 }
 
 export type CartType = {
