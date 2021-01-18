@@ -2,8 +2,8 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import cn from 'classnames'
 
-import { HANDLE_ACTIVE_CATEGORY } from '../redux/reducers/filtersReducer'
 import { AppStateType } from '../redux/store'
+import { handleActiveCategoryThunk } from '../redux/reducers/pizzasReducer'
 
 const Categories: React.FC = React.memo(() => {
     const filters = useSelector((state: AppStateType) => state.filters.categories)
@@ -15,13 +15,13 @@ const Categories: React.FC = React.memo(() => {
             <ul>
                 <li 
                     className={cn({'active': activeItem === null})}
-                    onClick={() => dispatch({type: HANDLE_ACTIVE_CATEGORY, payload: null})}
+                    onClick={() => dispatch(handleActiveCategoryThunk(null))}
                     >Все</li>
                 {filters.map((item, index) => {
                     return (
                         <li 
                             className={cn({'active': activeItem === index + 1})}
-                            onClick={() => dispatch({type: HANDLE_ACTIVE_CATEGORY, payload: index + 1})} 
+                            onClick={() => dispatch(handleActiveCategoryThunk(index + 1))} 
                             key={item}
                         >{item}</li>
                     )

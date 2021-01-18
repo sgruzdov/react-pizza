@@ -8,8 +8,7 @@ type ButtonType = {
     outline?: boolean
 }
 
-const Button: React.FC<ButtonType> = ({ children, onClickAdd, className, outline }) => {
-
+const Button: React.FC<ButtonType> = React.memo(({ children, onClickAdd, className, outline }) => {
     const classes = cn(
             'button', 
             className,
@@ -24,6 +23,6 @@ const Button: React.FC<ButtonType> = ({ children, onClickAdd, className, outline
             {children}
         </button>
     )
-}
+})
 
 export default Button

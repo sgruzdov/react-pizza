@@ -11,7 +11,7 @@ type PropsType = {
     onMinus: (id: string) => void
 }
 
-const CartItem: React.FC<PropsType> = ({ item, totalPrice, totalCount, onRemove, onPlus, onMinus }) => {
+const CartItem: React.FC<PropsType> = React.memo(({ item, totalPrice, totalCount, onRemove, onPlus, onMinus }) => {
 
     const handleRemoveClick = (id: string): void => onRemove(id)
     const onPlusPizza = (id: string): void => onPlus(id)
@@ -54,6 +54,6 @@ const CartItem: React.FC<PropsType> = ({ item, totalPrice, totalCount, onRemove,
         </div>
         </div>
     )
-}
+})
 
 export default CartItem
