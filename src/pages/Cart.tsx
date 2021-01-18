@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 
 import CartItem from '../components/CartItem'
 
-import { CLEAR_CART } from '../redux/reducers/cartReducer'
+import { CLEAR_CART, CLEAR_PIZZA, MINUS_PIZZA, PLUS_PIZZA } from '../redux/reducers/cartReducer'
 import { AppStateType } from '../redux/store'
 import Preloader from '../components/Preloader'
+import Button from '../components/Button'
 
 const CartEmpty = React.lazy(() => import('../components/CartEmpty'))
 
@@ -21,6 +22,14 @@ const Cart: React.FC = () => {
         if(window.confirm('Вы действительно хотите очистить корзину?')) {
             dispatch({type: CLEAR_CART})
         }
+    }
+
+    const onRemoveItem = (id: string) => dispatch({ type: CLEAR_PIZZA, payload: id })
+    const onPlusItem = (id: string) => dispatch({ type: PLUS_PIZZA, payload: id })
+    const onMinusItem = (id: string) => dispatch({ type: MINUS_PIZZA, payload: id })
+    const onClickOrder = () => {
+        console.log('ВАШ ЗАКАЗ: ', cartItems)
+        dispatch({ type: CLEAR_CART })
     }
 
     return (
@@ -54,7 +63,10 @@ const Cart: React.FC = () => {
                                 key={`${index}_${item.id}`} 
                                 item={item} 
                                 totalCount={cartItems[item.id].items.length} 
-                                totalPrice={cartItems[item.id].totalPrice}/>
+                                totalPrice={cartItems[item.id].totalPrice}
+                                onRemove={onRemoveItem}
+                                onPlus={onPlusItem}
+                                onMinus={onMinusItem}/>
                         })}
                     </div>
                     <div className="cart__bottom">
@@ -67,9 +79,9 @@ const Cart: React.FC = () => {
                                 <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                                 <span>Вернуться назад</span>
                             </Link>
-                            <div className="button pay-btn">
+                            <Button onClickAdd={onClickOrder} className="pay-btn">
                                 <span>Оплатить сейчас</span>
-                            </div>
+                            </Button>
                         </div>
                     </div>
                 </div>
