@@ -1,7 +1,7 @@
 import produce from 'immer'
 
 import { getCategoriesPizzas, getPizzas } from '../../firebase/api'
-import { PizzasType } from '../../types/types'
+import { ActionType, PizzasType } from '../../types/types'
 import { HANDLE_ACTIVE_CATEGORY } from './filtersReducer'
 
 export const GET_PIZZAS = 'GET_PIZZAS'
@@ -15,7 +15,7 @@ const initialState: PizzasType = {
 
 type initialStateType = typeof initialState
 
-export const pizzasReducer = (state = initialState, action: any): initialStateType => {
+export const pizzasReducer = (state = initialState, action: ActionType): initialStateType => {
     switch(action.type) {
         case GET_PIZZAS:
             return produce(state, draft => {

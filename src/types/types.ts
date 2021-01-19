@@ -1,8 +1,5 @@
 export type CartItemsType = {
-    [id: string]: {
-        items: PizzaCart[]
-        totalPrice: number
-    }
+    [id: string]: PizzaCart[]
 }
 
 export type CartType = {
@@ -18,6 +15,7 @@ export type PizzaCart = {
     price: number
     size: number
     type: string
+    amount: number
 }
 
 export type ItemsCartType = {
@@ -55,4 +53,9 @@ export type FiltersPizzaType = {
 export type FiltersType = {
     name: string
     type: string
+}
+
+export type ActionType = {
+    type: string,
+    payload?: any
 }

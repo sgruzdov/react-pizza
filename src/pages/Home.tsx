@@ -16,7 +16,6 @@ import { ADD_PIZZA_CART } from '../redux/reducers/cartReducer'
 const Home: React.FC = () => {
     const pizzas = useSelector((state: AppStateType) => state.pizzas)
     const activeSort = useSelector((state: AppStateType) => state.filters.activeSort)
-
     const dispatch = useDispatch()
 
     useEffect(() => {

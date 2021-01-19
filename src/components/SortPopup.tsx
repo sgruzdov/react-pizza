@@ -8,7 +8,7 @@ import { AppStateType } from '../redux/store'
 
 const SortPopup: React.FC = React.memo(() => {
     const [visiblePopup, setVisiblePopup] = useState(false)
-    const sortRef = useRef<HTMLInputElement>(null)
+    const sortRef = useRef<HTMLDivElement>(null)
     const filters = useSelector((state: AppStateType) => state.filters.sort)
     const activeItem = useSelector((state: AppStateType) => state.filters.activeSort)
     const dispatch = useDispatch()
@@ -38,22 +38,20 @@ const SortPopup: React.FC = React.memo(() => {
                 <b>Сортировка по:</b>
                 <span onClick={toggleVisiblePopup}>{filters.find(item => item.type === activeItem && item.name).name}</span>
             </div>
-            {
-                visiblePopup && 
-                <div className="sort__popup">
-                    <ul>
-                        {filters.map(item => {
-                            return (
-                                <li 
-                                    className={cn({'active': item.type === activeItem})}
-                                    onClick={() => dispatch({type: HANDLE_ACTIVE_SORT, payload: item.type})} 
-                                    key={item.name}
-                                >{item.name}</li>
-                            )
-                        })}
-                    </ul>
-                </div>
-            }
+            {visiblePopup && 
+            <div className="sort__popup">
+                <ul>
+                    {filters.map(item => {
+                        return (
+                            <li 
+                                className={cn({'active': item.type === activeItem})}
+                                onClick={() => dispatch({type: HANDLE_ACTIVE_SORT, payload: item.type})} 
+                                key={item.name}
+                            >{item.name}</li>
+                        )
+                    })}
+                </ul>
+            </div>}
         </div>
     )
 })

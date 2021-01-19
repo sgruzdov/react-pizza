@@ -1,4 +1,6 @@
-import { CartItemsType, CartType } from '../../types/types'
+import produce from 'immer'
+
+import { ActionType, CartItemsType, CartType, PizzaCart } from '../../types/types'
 
 export const SET_TOTAL_PRICE = 'SET_TOTAL_PRICE'
 export const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
@@ -16,106 +18,75 @@ const initialState: CartType = {
 
 type initialStateType = typeof initialState
 
-const getTotalPrice = (arr: any): number => arr.reduce((sum: number, obj: any) => obj.price + sum, 0)
+const getTotalPrice = (obj: CartItemsType): number => Object.values(obj).flat().reduce((sum, obj) => (obj.price * obj.amount) + sum, 0)
+const getTotalCount = (obj: CartItemsType): number => Object.values(obj).flat().reduce((sum, obj) => obj.amount + sum, 0)
+const findItem = (arr: PizzaCart[], action: PizzaCart): number => arr.findIndex(item => item.size === action.size && item.type === action.type)
 
-export const cartReducer = (state = initialState, action: any): initialStateType => {
+export const cartReducer = (state = initialState, action: ActionType): initialStateType => {
     switch(action.type) {
         case ADD_PIZZA_CART: {
-            const currentPizzaItems = !state.items[action.payload.id]
-                ? [action.payload]
-                : [...state.items[action.payload.id].items, action.payload]
-
-                const newItems: CartItemsType = {
-                ...state.items,
-                [action.payload.id]: {
-                        items: currentPizzaItems,
-                        totalPrice: getTotalPrice(currentPizzaItems)
-                    }
+            const newArrItems = () => {
+                let newArr: PizzaCart[] = []
+            
+                const currentArr = state.items[action.payload.id].find(item => item.size === action.payload.size && item.type === action.payload.type)
+                if(currentArr) {
+                    newArr = state.items[action.payload.id].map(item => {
+                        if(item.size === action.payload.size && item.type === action.payload.type) {
+                            const newItem = {...item}
+                            newItem.amount = newItem.amount + 1
+                            return newItem
+                        } else {
+                            return item
+                        }
+                    })
+                } else {
+                    newArr = [...state.items[action.payload.id], action.payload]
+                }
+                return newArr
             }
 
-            const newTotalItems = Object.values(newItems).map(obj => obj.items).flat()
-
-            return {
-                ...state,
-                items: newItems,
-                totalCount: +newTotalItems.length,
-                totalPrice: getTotalPrice(newTotalItems)
-            }
+            return produce(state, draft => {
+                draft.items[action.payload.id] = draft.items[action.payload.id] ? newArrItems() : [action.payload]
+                draft.totalCount = getTotalCount(draft.items)
+                draft.totalPrice = getTotalPrice(draft.items)
+            })
         }
-        case SET_TOTAL_PRICE: 
-            return {
-                ...state,
-                totalPrice: action.payload
-            }
-        case SET_TOTAL_COUNT: 
-            return {
-                ...state,
-                totalCount: action.payload
-            }
         case CLEAR_CART: {
-            return {
-                items: {},
-                totalCount: 0,
-                totalPrice: 0
-            }
+            return produce(state, draft => {
+                draft.items = {}
+                draft.totalCount = 0
+                draft.totalPrice = 0
+            })
         }
         case CLEAR_PIZZA:
-            const newItems = {
-                ...state.items
-            }
-            const currentTotalPrice = newItems[action.payload].totalPrice
-            const currentTotalLength = newItems[action.payload].items.length
-            delete newItems[action.payload]
+            const findClear = findItem([...state.items[action.payload.id]], action.payload)
 
-            return {
-                ...state,
-                items: newItems,
-                totalPrice: state.totalPrice - currentTotalPrice,
-                totalCount: state.totalCount - currentTotalLength
-            }
+            return produce(state, draft => {
+                const newDraft = [...draft.items[action.payload.id]]
+                newDraft.splice(findClear, 1)
+
+                draft.items[action.payload.id] = newDraft
+                draft.totalCount = getTotalCount(draft.items)
+                draft.totalPrice = getTotalPrice(draft.items)
+            })
         case PLUS_PIZZA: {
-            const newItemsPlus = [
-                ...state.items[action.payload].items,
-                state.items[action.payload].items[0]
-            ]
+            const findPlus = findItem([...state.items[action.payload.id]], action.payload)
 
-            const newStateItems: CartType = {
-                ...state,
-                items: {
-                    ...state.items,
-                    [action.payload]: {
-                        items: newItemsPlus,
-                        totalPrice: getTotalPrice(newItemsPlus)
-                    }
-                }
-            }
-
-            return {
-                ...newStateItems,
-                totalPrice: getTotalPrice(Object.values(newStateItems.items).map(obj => obj.items).flat()),
-                totalCount: Object.values(newStateItems.items).map(obj => obj.items).flat().length
-            }
+            return produce(state, draft => {
+                draft.items[action.payload.id][findPlus].amount = draft.items[action.payload.id][findPlus].amount + 1
+                draft.totalCount = getTotalCount(draft.items)
+                draft.totalPrice = getTotalPrice(draft.items)
+            })
         }
         case MINUS_PIZZA: {
-            const oldItems = state.items[action.payload].items
-            const newItemsMinus = oldItems.length > 1 ? oldItems.slice(1) : oldItems
+            const findMinus = findItem([...state.items[action.payload.id]], action.payload)
 
-            const newStateItems: CartType = {
-                ...state,
-                items: {
-                    ...state.items,
-                    [action.payload]: {
-                        items: newItemsMinus,
-                        totalPrice: getTotalPrice(newItemsMinus)
-                    }
-                }
-            }
-
-            return {
-                ...newStateItems,
-                totalPrice: getTotalPrice(Object.values(newStateItems.items).map(obj => obj.items).flat()),
-                totalCount: Object.values(newStateItems.items).map(obj => obj.items).flat().length
-            }
+            return produce(state, draft => {
+                const currentAmountItem = draft.items[action.payload.id][findMinus].amount
+                draft.items[action.payload.id][findMinus].amount = currentAmountItem > 1 ? currentAmountItem - 1 : currentAmountItem
+                draft.totalCount = getTotalCount(draft.items)
+                draft.totalPrice = getTotalPrice(draft.items)
+            })
         }
         default:
             return state
