@@ -11,3 +11,5 @@
 + Immer JS
 + SCSS
 + Firebase
+
+Ссылка на приложение: https://react-pizza-typescript.herokuapp.com/
