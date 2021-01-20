@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import { ActionType, CartItemsType, CartType, PizzaCart } from '../../types/types'
+import { CartItemsType, CartType, PizzaCart } from '../../types/types'
 
 export const SET_TOTAL_PRICE = 'SET_TOTAL_PRICE'
 export const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT'
@@ -22,7 +22,7 @@ const getTotalPrice = (obj: CartItemsType): number => Object.values(obj).flat().
 const getTotalCount = (obj: CartItemsType): number => Object.values(obj).flat().reduce((sum, obj) => obj.amount + sum, 0)
 const findItem = (arr: PizzaCart[], action: PizzaCart): number => arr.findIndex(item => item.size === action.size && item.type === action.type)
 
-export const cartReducer = (state = initialState, action: ActionType): initialStateType => {
+export const cartReducer = (state = initialState, action: CartActionTypes): initialStateType => {
     switch(action.type) {
         case ADD_PIZZA_CART: {
             const newArrItems = () => {
@@ -91,4 +91,30 @@ export const cartReducer = (state = initialState, action: ActionType): initialSt
         default:
             return state
     }
+}
+
+export type CartActionTypes = AddPizzaCartType | ClearCartType | ClearPizzaType | PlusPizzaType | MinusPizzaType
+
+type AddPizzaCartType = {
+    type: typeof ADD_PIZZA_CART
+    payload: PizzaCart
+}
+
+type ClearCartType = {
+    type: typeof CLEAR_CART
+}
+
+type ClearPizzaType = {
+    type: typeof CLEAR_PIZZA
+    payload: PizzaCart
+}
+
+type PlusPizzaType = {
+    type: typeof PLUS_PIZZA
+    payload: PizzaCart
+}
+
+type MinusPizzaType = {
+    type: typeof MINUS_PIZZA
+    payload: PizzaCart
 }

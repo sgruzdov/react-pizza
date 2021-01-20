@@ -1,4 +1,4 @@
-import { ActionType, TypesPizzaType } from '../../types/types'
+import { TypesPizzaType } from '../../types/types'
 
 
 const initialState: TypesPizzaType = {
@@ -8,4 +8,4 @@ const initialState: TypesPizzaType = {
 
 type initialStateType = typeof initialState
 
-export const typesReducer = (state = initialState, action: ActionType): initialStateType => state
+export const typesReducer = (state = initialState): initialStateType => state

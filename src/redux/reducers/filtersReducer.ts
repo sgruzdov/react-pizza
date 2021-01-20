@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import { ActionType, FiltersPizzaType } from '../../types/types'
+import { FiltersPizzaType } from '../../types/types'
 
 export const HANDLE_ACTIVE_SORT = 'HANDLE_ACTIVE_SORT'
 export const HANDLE_ACTIVE_CATEGORY = 'HANDLE_ACTIVE_CATEGORY'
@@ -18,7 +18,7 @@ const initialState: FiltersPizzaType = {
 
 type initialStateType = typeof initialState
 
-export const filtersReducer = (state = initialState, action: ActionType): initialStateType => {
+export const filtersReducer = (state = initialState, action: FiltersActionTypes): initialStateType => {
     switch(action.type) {
         case HANDLE_ACTIVE_SORT: 
             return produce(state, draft => {
@@ -31,4 +31,16 @@ export const filtersReducer = (state = initialState, action: ActionType): initia
         default:
             return state
     }
+}
+
+export type FiltersActionTypes = HandleActiveSortType | HandleActiveCategoryType
+
+type HandleActiveSortType = {
+    type: typeof HANDLE_ACTIVE_SORT
+    payload: string
+}
+
+type HandleActiveCategoryType = {
+    type: typeof HANDLE_ACTIVE_CATEGORY
+    payload: number
 }

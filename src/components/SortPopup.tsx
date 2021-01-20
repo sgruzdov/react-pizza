@@ -13,8 +13,8 @@ const SortPopup: React.FC = React.memo(() => {
     const activeItem = useSelector((state: AppStateType) => state.filters.activeSort)
     const dispatch = useDispatch()
 
-    const handleOutsideClick = (e: any): void => {
-        const path = e.path || (e.composedPath && e.composedPath())
+    const handleOutsideClick = (e: MouseEvent): void => {
+        const path = e.composedPath && e.composedPath()
         if(!path.includes(sortRef.current)) {
             setVisiblePopup(false)
         }

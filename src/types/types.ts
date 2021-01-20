@@ -54,8 +54,3 @@ export type FiltersType = {
     name: string
     type: string
 }
-
-export type ActionType = {
-    type: string,
-    payload?: any
-}
